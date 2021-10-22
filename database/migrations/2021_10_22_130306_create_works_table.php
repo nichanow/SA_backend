@@ -15,6 +15,7 @@ class CreateWorksTable extends Migration
     {
         Schema::create('works', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->foreignIdFor(\App\Models\User::class)->default(null);
             $table->string('title');
             $table->string('accused_name');
             $table->string('complainer_name');

@@ -2,83 +2,112 @@
 
 namespace App\Http\Controllers;
 
+
+use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use App\Models\User;
 
-class User extends Controller
+class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function getAllUsers()
     {
-        //
+        $user = User::all();
+        return $user;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function getUser($id)
     {
-        //
+        $user = User::find($id);
+        return $user;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function addUser(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|unique:users',
+            'password' => 'required',
+            'name' => 'required',
+            'role' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return [
+                "status" => "error",
+                "error" => $errors
+            ];
+        } else {
+            $user = new User();
+            $user->name = $request->name;
+            $user->username = $request->username;
+            $user->password = Hash::make($request->password);
+            $user->role = $request->role;
+
+            if ($user->save()) {
+                return [
+                    'status' => 'success',
+                    'data' => $user,
+                ];
+            } else {
+                return [
+                    'status' => 'error',
+                    'data' => "Can't add user",
+                ];
+            }
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function updateUser(Request $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'password' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return [
+                "status" => "error",
+                "error" => $errors
+            ];
+        } else {
+            $user->name = $request->name;
+            if (!empty($request->password)) {
+                $user->password = Hash::make($request->password);
+            }
+            $user->role = $request->role;
+
+            if ($user->save()) {
+                return $user;
+            } else {
+                return
+                    [
+                        "status" => "error",
+                        "error" => "แก้ไขไม่ได้"
+                    ];
+            }
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $user->works()->delete();
+        $user->appointments()->delete();
+
+        if ($user->delete()) {
+            return [
+                "status" => "success"
+            ];
+        } else {
+            return [
+                "status" => "error",
+                "error" => "ลบไม่ได้"
+            ];
+        }
     }
 }

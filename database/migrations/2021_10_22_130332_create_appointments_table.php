@@ -15,10 +15,12 @@ class CreateAppointmentsTable extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->foreignIdFor(\App\Models\User::class)->default(null);
             $table->string('title');
             $table->longText('detail');
             $table->datetime('booking_date');
             $table->string('booking_time');
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }

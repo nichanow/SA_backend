@@ -4,82 +4,71 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 class AppointmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function getAllAppointments()
     {
-        //
+        $appointment = Appointment::all();
+
+        foreach ($appointment as $papa) {
+            $papa['user'] = $papa->user();
+        }
+        return $appointment;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function createAppointment(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'title' => 'required',
+            'detail' => 'required',
+            'booking_date' => 'required',
+            'booking_time' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            return [
+                "status" => "error",
+                "error" => $errors
+            ];
+        } else {
+            $appointment = new Appointment();
+            $appointment->user_id = $request->user_id;
+            $appointment->title = $request->title;
+            $appointment->detail = $request->detail;
+            $appointment->booking_time = $request->booking_time;
+            $appointment->booking_date = $request->booking_date;
+
+            if ($appointment->save()) {
+                return $appointment;
+            } else {
+                return
+                    [
+                        "status" => "error",
+                        "error" => "สร้างไม่ได้"
+                    ];
+            }
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function destroy($id)
     {
-        //
-    }
+        $appointment = Appointment::findOrFail($id);
+        if ($appointment->delete()) {
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Appointment  $appointment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Appointment $appointment)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Appointment  $appointment
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Appointment $appointment)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Appointment  $appointment
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Appointment $appointment)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Appointment  $appointment
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Appointment $appointment)
-    {
-        //
+            return [
+                "status" => "success"
+            ];
+        } else {
+            return [
+                "status" => "error",
+                "error" => "ลบไม่ได้"
+            ];
+        }
     }
 }
