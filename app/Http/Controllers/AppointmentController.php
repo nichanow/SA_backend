@@ -13,10 +13,46 @@ class AppointmentController extends Controller
     {
         $appointment = Appointment::all();
 
-        foreach ($appointment as $papa) {
-            $papa['user'] = $papa->user();
+        foreach ($appointment as $papa){
+            $papa['user'] = $papa->user;
         }
         return $appointment;
+        
+        
+    }
+
+    public function getAppointment($id)
+    {
+        $appointment = Appointment::find($id);
+        return $appointment;
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $appointment = Appointment::findOrFail($id);
+        $validator = Validator::make($request->all(), [
+            'status' => 'required',
+        ]);
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            return [
+                "status" => "error",
+                "error" => $errors
+            ];
+        } else {
+            $appointment->status = $request->status;
+
+            if ($appointment->save()) {
+                return $appointment;
+            } else {
+                return
+                    [
+                        "status" => "error",
+                        "error" => "เปลี่ยนสถานะไม่ได้"
+                    ];
+            }
+        }
     }
 
     public function createAppointment(Request $request)
@@ -27,6 +63,7 @@ class AppointmentController extends Controller
             'detail' => 'required',
             'booking_date' => 'required',
             'booking_time' => 'required',
+
         ]);
 
         if ($validator->fails()) {

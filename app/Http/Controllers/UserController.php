@@ -64,7 +64,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'password' => 'required',
+           
         ]);
 
         if ($validator->fails()) {
@@ -78,7 +78,6 @@ class UserController extends Controller
             if (!empty($request->password)) {
                 $user->password = Hash::make($request->password);
             }
-            $user->role = $request->role;
 
             if ($user->save()) {
                 return $user;
@@ -92,35 +91,35 @@ class UserController extends Controller
         }
     }
 
-    // public function login(Request $request)
-    // {
-    //     $user = User::where('username', $request->username)->first();
-    //     if (!empty($user)) {
-    //         if (Hash::check($request->password, $user->password)) {
-    //             $token = $this->jwt($user);
-    //             $user["api_token"] = $token;
-    //             return [
-    //                 "user" => $user,
-    //                 "status" => "success"
-    //             ];
-    //         } else {
-    //             return [
-    //                 "status" => "error",
-    //                 "error" => "Password ไม่ถูกต้อง"
-    //             ];
-    //         }
-    //     } else {
-    //         return [
-    //             "status" => "error",
-    //             "error" => "ไม่พบ Username นี้"
-    //         ];
-    //     }
-    // }
+    public function login(Request $request)
+    {
+        $user = User::where('username', $request->username)->first();
+        if (!empty($user)) {
+            if (Hash::check($request->password, $user->password)) {
+                $token = $this->jwt($user);
+                $user["api_token"] = $token;
+                return [
+                    "user" => $user,
+                    "status" => "success"
+                ];
+            } else {
+                return [
+                    "status" => "error",
+                    "error" => "Password ไม่ถูกต้อง"
+                ];
+            }
+        } else {
+            return [
+                "status" => "error",
+                "error" => "ไม่พบ Username นี้"
+            ];
+        }
+    }
 
     protected function jwt($user)
     {
         $payload = [
-            'iss' => "gowasabi-jwt", // Issuer of the token
+            'iss' => "website-jwt", // Issuer of the token
             'sub' => $user->id, // Subject of the token
             'iat' => time(), // Time when JWT was issued.
             'exp' => time() + env('JWT_EXPIRE_HOUR') * 60 * 60, // Expiration time

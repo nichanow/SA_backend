@@ -23,7 +23,7 @@ class AppointmentSeeder extends Seeder
         $appointment->detail = 'อยากทราบรายละเอียดเพิ่มเติมเพื่อนำไปตัดสินใจ';
         $appointment->booking_date = Carbon::now();
         $appointment->booking_time = '15.00';
-        $appointment->status = false;
+        $appointment->status = 'Waiting';
         $appointment->save();
 
         // id 2
@@ -34,7 +34,7 @@ class AppointmentSeeder extends Seeder
         $appointment->detail = 'อยากทราบรายละเอียดเพิ่มเติมเพื่อนำไปตัดสินใจ';
         $appointment->booking_date = Carbon::now();
         $appointment->booking_time = '20.00';
-        $appointment->status = false;
+        $appointment->status = 'Confirmed';
         $appointment->save();
 
     }

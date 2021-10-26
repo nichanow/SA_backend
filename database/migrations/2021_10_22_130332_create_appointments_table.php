@@ -20,7 +20,7 @@ class CreateAppointmentsTable extends Migration
             $table->longText('detail');
             $table->datetime('booking_date');
             $table->string('booking_time');
-            $table->boolean('status')->default(false);
+            $table->enum('status',['Confirmed','Declined','Waiting'])->default('Waiting');
             $table->timestamps();
         });
     }
