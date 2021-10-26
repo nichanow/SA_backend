@@ -15,7 +15,7 @@ class CreateWorksTable extends Migration
     {
         Schema::create('works', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignIdFor(\App\Models\User::class)->default(null);
+            $table->foreignIdFor(\App\Models\User::class)->default(0);
             $table->string('title');
             $table->string('accused_name');
             $table->string('complainer_name');
@@ -25,6 +25,7 @@ class CreateWorksTable extends Migration
             'นครปฐม', 'นนทบุรี', 'ปทุมธานี', 'พระนครศรีอยุธยา', 'พิจิตร', 'พิษณุโลก','เพชรบูรณ์', 'ลพบุรี', 'สมุทรปราการ', 'สระบุรี', 'สุโขทัย', 'สุพรรณบุรี'
             , 'อ่างทอง', 'อุทัยธานี']);
             $table->longText('pdf_file');
+            $table->timestamps();
             $table->softDeletes();
 
             

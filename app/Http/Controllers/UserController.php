@@ -92,6 +92,42 @@ class UserController extends Controller
         }
     }
 
+    // public function login(Request $request)
+    // {
+    //     $user = User::where('username', $request->username)->first();
+    //     if (!empty($user)) {
+    //         if (Hash::check($request->password, $user->password)) {
+    //             $token = $this->jwt($user);
+    //             $user["api_token"] = $token;
+    //             return [
+    //                 "user" => $user,
+    //                 "status" => "success"
+    //             ];
+    //         } else {
+    //             return [
+    //                 "status" => "error",
+    //                 "error" => "Password ไม่ถูกต้อง"
+    //             ];
+    //         }
+    //     } else {
+    //         return [
+    //             "status" => "error",
+    //             "error" => "ไม่พบ Username นี้"
+    //         ];
+    //     }
+    // }
+
+    protected function jwt($user)
+    {
+        $payload = [
+            'iss' => "gowasabi-jwt", // Issuer of the token
+            'sub' => $user->id, // Subject of the token
+            'iat' => time(), // Time when JWT was issued.
+            'exp' => time() + env('JWT_EXPIRE_HOUR') * 60 * 60, // Expiration time
+        ];
+        return JWT::encode($payload, env('JWT_SECRET'));
+    }
+
     public function destroy($id)
     {
         $user = User::findOrFail($id);

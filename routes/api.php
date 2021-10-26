@@ -25,6 +25,14 @@ Route::prefix('appointment')->group(function(){
     Route::delete('/{id}', [App\Http\Controllers\AppointmentController::class, 'destroy']);
 });
 
+Route::prefix('work')->group(function(){
+    Route::get('/', [App\Http\Controllers\WorkController::class, 'getAllWork']);
+    Route::get('/{id}', [App\Http\Controllers\WorkController::class, 'getWork']);
+    Route::post('/', [App\Http\Controllers\WorkController::class, 'createWork']);
+    Route::put('/{id}', [App\Http\Controllers\WorkController::class, 'update']);
+    Route::delete('/{id}', [App\Http\Controllers\WorkController::class, 'destroy']);
+});
+
 Route::prefix('user')->group(function(){
     Route::get('/', [App\Http\Controllers\UserController::class, 'getAllUser']);
     Route::get('/{id}', [App\Http\Controllers\UserController::class, 'getUser']);
