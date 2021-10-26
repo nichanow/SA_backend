@@ -44,6 +44,7 @@ class AppointmentController extends Controller
             $appointment->status = $request->status;
 
             if ($appointment->save()) {
+                $appointment['user']=$appointment->user;
                 return $appointment;
             } else {
                 return
