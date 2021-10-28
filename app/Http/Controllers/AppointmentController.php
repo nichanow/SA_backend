@@ -59,7 +59,8 @@ class AppointmentController extends Controller
     public function createAppointment(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required',
+            'sender_id' => 'required',
+            'receiver_id' => 'required',
             'title' => 'required',
             'detail' => 'required',
             'booking_date' => 'required',
@@ -76,7 +77,8 @@ class AppointmentController extends Controller
             ];
         } else {
             $appointment = new Appointment();
-            $appointment->user_id = $request->user_id;
+            $appointment->sender_id = $request->sender_id;
+            $appointment->receiver_id = $request->receiver_id;
             $appointment->title = $request->title;
             $appointment->detail = $request->detail;
             $appointment->booking_time = $request->booking_time;

@@ -15,12 +15,15 @@ class CreateAppointmentsTable extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignIdFor(\App\Models\User::class)->default(0);
+
+            $table->foreignIdFor(\App\Models\User::class, 'sender_id');
+            $table->foreignIdFor(\App\Models\User::class, 'receiver_id');
+
             $table->string('title');
             $table->longText('detail');
             $table->datetime('booking_date');
             $table->string('booking_time');
-            $table->enum('status',['Confirmed','Declined','Waiting'])->default('Waiting');
+            $table->enum('status', ['Confirmed', 'Declined', 'Waiting'])->default('Waiting');
             $table->timestamps();
         });
     }

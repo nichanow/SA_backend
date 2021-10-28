@@ -10,7 +10,10 @@ class Appointment extends Model
 
     use HasFactory;
 
-    public function user(){
+    public function sender(){
+        return $this->belongsTo(User::class);
+    }
+    public function receiver(){
         return $this->belongsTo(User::class);
     }
 }

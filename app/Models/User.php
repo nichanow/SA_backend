@@ -22,8 +22,11 @@ class User extends Authenticatable
     }
 
     
-    public function appointments(){
-        return $this->hasMany(Appointment::class);
+    public function appointment_sender(){
+        return $this->hasMany(Appointment::class,'sender_id');
+    }
+    public function appointment_receiver(){
+        return $this->hasOne(Appointment::class,'receiver_id');
     }
 
     protected $hidden = [

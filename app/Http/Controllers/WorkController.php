@@ -12,6 +12,15 @@ class WorkController extends Controller
     public function getAllWork()
     {
         $work = Work::all();
+        foreach ($work as $papa){
+            $papa['user'] = $papa->user;
+            
+            // $papa['employee'] = $papa->user->role('EMPLOYEE');
+     
+
+        }
+
+
         return $work;
     }
 
@@ -35,7 +44,7 @@ class WorkController extends Controller
             'type' => 'required',
             
             'province' => 'required',
-            'pdf_file' => 'required',
+ 
         ]);
 
         if ($validator->fails()) {
@@ -49,12 +58,13 @@ class WorkController extends Controller
             $work = new Work();
             $work->title = $request->title;
             $work->user_id = 0;
+            $work->status = "รอดำเนินการ";
             $work->accused_name = $request->accused_name;
             $work->complainer_name = $request->complainer_name;
             $work->detail = $request->detail;
             $work->type = $request->type;
             $work->province = $request->province;
-            $work->pdf_file = $request->pdf_file;
+            $work->pdf_file = "";
 
             if ($work->save()) {
                 return $work;
@@ -78,7 +88,6 @@ class WorkController extends Controller
             'detail' => 'required',
             'type' => 'required',
             'province' => 'required',
-            'pdf_file' => 'required',
         ]);
 
         if ($validator->fails()) {

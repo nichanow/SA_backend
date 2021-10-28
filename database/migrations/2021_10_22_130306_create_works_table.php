@@ -20,6 +20,7 @@ class CreateWorksTable extends Migration
             $table->string('accused_name');
             $table->string('complainer_name');
             $table->longText('detail');
+            $table->enum('status', ['เห็นชอบ','ไม่เห็นชอบ','รอดำเนินการ']);
             $table->enum('type', ['examine']);
             $table->enum('province', ['กำแพงเพชร', 'ชัยนาท', 'นครนายก', 'นครสวรรค์', 
             'นครปฐม', 'นนทบุรี', 'ปทุมธานี', 'พระนครศรีอยุธยา', 'พิจิตร', 'พิษณุโลก','เพชรบูรณ์', 'ลพบุรี', 'สมุทรปราการ', 'สระบุรี', 'สุโขทัย', 'สุพรรณบุรี'
