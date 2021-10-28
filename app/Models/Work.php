@@ -13,4 +13,9 @@ class Work extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function summary() {
+        return $this->hasOne(Summary::class);
+    }
+
 }

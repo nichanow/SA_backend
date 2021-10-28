@@ -5,21 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\Work;
+use Firebase\JWT\JWT;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class WorkController extends Controller
 {
+    
     public function getAllWork()
     {
-        $work = Work::all();
-        foreach ($work as $papa){
+        $work = [];
+        $work['works'] = Work::all();
+        $work['employees'] = User::where('role','EMPLOYEE')->get();
+      
+        foreach ($work['works'] as $papa){
             $papa['user'] = $papa->user;
-            
-            // $papa['employee'] = $papa->user->role('EMPLOYEE');
-     
-
+            $papa['summary'] = $papa->summary;
         }
-
 
         return $work;
     }
@@ -27,6 +29,14 @@ class WorkController extends Controller
     public function getWork($id)
     {
         $work = Work::find($id);
+        return $work;
+    }
+    public function getUserWork(Request $request)
+    {
+        $token = $request->header('Authorization');
+        $credentials = JWT::decode($token, env('JWT_SECRET'), ['HS256']);
+
+        $work = Work::where('user_id',$credentials->sub)->get();
         return $work;
     }
 
@@ -37,14 +47,50 @@ class WorkController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required',
-            
             'accused_name' => 'required',
             'complainer_name' => 'required',
             'detail' => 'required',
             'type' => 'required',
-            
             'province' => 'required',
- 
+
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            return [
+                "status" => "error",
+                "error" => $errors
+            ];
+        } 
+        else 
+        {
+            $work = new Work();
+            $work->title = $request->title;
+            $work->status = "รอดำเนินการ";
+            $work->accused_name = $request->accused_name;
+            $work->complainer_name = $request->complainer_name;
+            $work->detail = $request->detail;
+            $work->type = $request->type;
+            $work->province = $request->province;
+        
+
+            if ($work->save()) {
+                return $work;
+            } else {
+                return
+                    [
+                        "status" => "error",
+                        "error" => "สร้างไม่ได้"
+                    ];
+            }
+        }
+    }
+
+    public function updateEmployee(Request $request, $id) {
+        $work = Work::findOrFail($id);
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -55,24 +101,16 @@ class WorkController extends Controller
                 "error" => $errors
             ];
         } else {
-            $work = new Work();
-            $work->title = $request->title;
-            $work->user_id = 0;
-            $work->status = "รอดำเนินการ";
-            $work->accused_name = $request->accused_name;
-            $work->complainer_name = $request->complainer_name;
-            $work->detail = $request->detail;
-            $work->type = $request->type;
-            $work->province = $request->province;
-            $work->pdf_file = "";
 
+           $work->user_id = $request->user_id;
             if ($work->save()) {
+                $work['user'] = $work->user;
                 return $work;
             } else {
                 return
                     [
                         "status" => "error",
-                        "error" => "สร้างไม่ได้"
+                        "error" => "ไม่สามารถให้งานกับลูกน้องคนนี้ได้"
                     ];
             }
         }
@@ -107,7 +145,6 @@ class WorkController extends Controller
             $work->pdf_file = $request->pdf_file;
 
             if ($work->save()) {
-    
                 return $work;
             } else {
                 return
@@ -121,7 +158,7 @@ class WorkController extends Controller
     public function destroy($id)
     {
         $work = Work::findOrFail($id);
-
+        $work->summary()->delete();
         if ($work->delete()) {
             return [
                 "status" => "success"
