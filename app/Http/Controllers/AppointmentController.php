@@ -18,9 +18,7 @@ class AppointmentController extends Controller
         foreach ($appointment as $papa){
             $papa['name'] = $papa->sender->name;
         }
-        return $appointment;
-        
-        
+        return $appointment;  
     }
 
     public function getAppointment($id)

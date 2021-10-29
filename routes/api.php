@@ -47,7 +47,6 @@ Route::middleware(['jwt.auth:ADMIN,EMPLOYEE'])->prefix('work')->group(function (
 });
 
 
-
 Route::middleware(['jwt.auth:EMPLOYEE'])->prefix('employee')->group(function () {
     Route::get('/', [App\Http\Controllers\WorkController::class, 'getUserWork']);
 });

@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use phpDocumentor\Reflection\Types\Nullable;
+use Illuminate\Support\Facades\DB;
 
 class CreateWorksTable extends Migration
 {
@@ -27,7 +28,8 @@ class CreateWorksTable extends Migration
             'นครปฐม', 'นนทบุรี', 'ปทุมธานี', 'พระนครศรีอยุธยา', 'พิจิตร', 'พิษณุโลก','เพชรบูรณ์', 'ลพบุรี', 'สมุทรปราการ', 'สระบุรี', 'สุโขทัย', 'สุพรรณบุรี'
             , 'อ่างทอง', 'อุทัยธานี']);
             $table->longText('pdf_file')->nullable();
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->softDeletes();
         });
     }

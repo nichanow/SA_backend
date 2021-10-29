@@ -37,6 +37,11 @@ class WorkController extends Controller
         $credentials = JWT::decode($token, env('JWT_SECRET'), ['HS256']);
 
         $work = Work::where('user_id',$credentials->sub)->get();
+        foreach ($work as $papa){
+            $papa['user'] = $papa->user;
+            $papa['summary'] = $papa->summary;
+        }
+
         return $work;
     }
 
