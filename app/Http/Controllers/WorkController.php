@@ -8,17 +8,19 @@ use App\Models\Work;
 use Firebase\JWT\JWT;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class WorkController extends Controller
 {
-    
+
     public function getAllWork()
     {
         $work = [];
         $work['works'] = Work::all();
-        $work['employees'] = User::where('role','EMPLOYEE')->get();
-      
-        foreach ($work['works'] as $papa){
+        $work['employees'] = User::where('role', 'EMPLOYEE')->get();
+
+        foreach ($work['works'] as $papa) {
             $papa['user'] = $papa->user;
             $papa['summary'] = $papa->summary;
         }
@@ -36,8 +38,8 @@ class WorkController extends Controller
         $token = $request->header('Authorization');
         $credentials = JWT::decode($token, env('JWT_SECRET'), ['HS256']);
 
-        $work = Work::where('user_id',$credentials->sub)->get();
-        foreach ($work as $papa){
+        $work = Work::where('user_id', $credentials->sub)->get();
+        foreach ($work as $papa) {
             $papa['user'] = $papa->user;
             $papa['summary'] = $papa->summary;
         }
@@ -57,19 +59,17 @@ class WorkController extends Controller
             'detail' => 'required',
             'type' => 'required',
             'province' => 'required',
+            'file' => 'required|mimes:doc,pdf,docx,txt',
 
         ]);
 
         if ($validator->fails()) {
             $errors = $validator->errors();
-
             return [
                 "status" => "error",
                 "error" => $errors
             ];
-        } 
-        else 
-        {
+        } else {
             $work = new Work();
             $work->title = $request->title;
             $work->status = "รอดำเนินการ";
@@ -78,9 +78,12 @@ class WorkController extends Controller
             $work->detail = $request->detail;
             $work->type = $request->type;
             $work->province = $request->province;
-        
+
+            $work->file = 'file_upload/' . $request->file->hashName();
+            $work->file->store('file_upload', 'public');
 
             if ($work->save()) {
+                $work['file_upload'] = env('APP_URL', false) . Storage::url('file_upload/' . $request->file->hashName());
                 return $work;
             } else {
                 return
@@ -92,7 +95,8 @@ class WorkController extends Controller
         }
     }
 
-    public function updateEmployee(Request $request, $id) {
+    public function updateEmployee(Request $request, $id)
+    {
         $work = Work::findOrFail($id);
         $validator = Validator::make($request->all(), [
             'user_id' => 'required'
@@ -107,7 +111,7 @@ class WorkController extends Controller
             ];
         } else {
 
-           $work->user_id = $request->user_id;
+            $work->user_id = $request->user_id;
             if ($work->save()) {
                 $work['user'] = $work->user;
                 return $work;
@@ -147,7 +151,6 @@ class WorkController extends Controller
             $work->detail = $request->detail;
             $work->type = $request->type;
             $work->province = $request->province;
-            $work->pdf_file = $request->pdf_file;
 
             if ($work->save()) {
                 return $work;

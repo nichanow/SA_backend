@@ -34,6 +34,11 @@ Route::middleware(['jwt.auth:ADMIN,EMPLOYEE'])->prefix('appointment')->group(fun
 
 });
 
+Route::middleware(['jwt.auth:EMPLOYEE'])->prefix('appointment')->group(function () {
+    Route::get('/user', [App\Http\Controllers\AppointmentController::class, 'getUserAppointments']);
+});
+
+
 Route::middleware(['jwt.auth:ADMIN'])->prefix('work')->group(function () {
     Route::get('/', [App\Http\Controllers\WorkController::class, 'getAllWork']);
     Route::post('/', [App\Http\Controllers\WorkController::class, 'createWork']);
@@ -50,6 +55,7 @@ Route::middleware(['jwt.auth:ADMIN,EMPLOYEE'])->prefix('work')->group(function (
 Route::middleware(['jwt.auth:EMPLOYEE'])->prefix('employee')->group(function () {
     Route::get('/', [App\Http\Controllers\WorkController::class, 'getUserWork']);
 });
+
 
 
 Route::middleware(['jwt.auth:ADMIN'])->prefix('user')->group(function () {

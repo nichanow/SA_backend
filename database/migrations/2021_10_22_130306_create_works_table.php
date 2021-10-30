@@ -27,7 +27,7 @@ class CreateWorksTable extends Migration
             $table->enum('province', ['กำแพงเพชร', 'ชัยนาท', 'นครนายก', 'นครสวรรค์', 
             'นครปฐม', 'นนทบุรี', 'ปทุมธานี', 'พระนครศรีอยุธยา', 'พิจิตร', 'พิษณุโลก','เพชรบูรณ์', 'ลพบุรี', 'สมุทรปราการ', 'สระบุรี', 'สุโขทัย', 'สุพรรณบุรี'
             , 'อ่างทอง', 'อุทัยธานี']);
-            $table->longText('pdf_file')->nullable();
+            $table->longText('file')->nullable();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->softDeletes();

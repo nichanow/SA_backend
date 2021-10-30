@@ -24,7 +24,6 @@ class WorkSeeder extends Seeder
         $work->type = "ร้องเรียนเกี่ยวกับการตรวจสอบ";
         $work->status = "เห็นชอบ";
         $work->province = "นนทบุรี";
-        $work->pdf_file = "test";
         $work->save();
 
         // id 2

@@ -27,6 +27,18 @@ class AppointmentController extends Controller
         return $appointment;
     }
 
+    public function getUserAppointments(Request $request){
+        $token = $request->header('Authorization');
+        $credentials = JWT::decode($token, env('JWT_SECRET'), ['HS256']);
+    
+        $appointment = Appointment::where('sender_id', $credentials->sub)->get();
+        // foreach ($appointment as $papa) {
+        //     $papa['sender'] = $papa->sender;
+        // }
+
+        return $appointment;  
+    }
+
     public function updateStatus(Request $request, $id)
     {
         $appointment = Appointment::findOrFail($id);

@@ -18,7 +18,7 @@ class CreateSummariesTable extends Migration
             $table->foreignIdFor(\App\Models\Work::class);
             $table->longText('summary_detail');
             $table->enum('conclusion',['เห็นชอบ', 'ไม่เห็นชอบ']);
-            $table->longText('pdf_file')->nullable();
+            $table->longText('file')->nullable();
             $table->timestamps();
         });
     }
