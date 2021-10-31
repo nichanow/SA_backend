@@ -58,16 +58,28 @@ Route::middleware(['jwt.auth:EMPLOYEE'])->prefix('employee')->group(function () 
 });
 
 
-
 Route::middleware(['jwt.auth:ADMIN'])->prefix('user')->group(function () {
     Route::get('/', [App\Http\Controllers\UserController::class, 'getAllUsers']);
+      Route::get('/employees', [App\Http\Controllers\UserController::class, 'getAllEmployees']);
     Route::get('/{id}', [App\Http\Controllers\UserController::class, 'getUser']);
     Route::post('/', [App\Http\Controllers\UserController::class, 'addUser']);
     Route::put('/{id}', [App\Http\Controllers\UserController::class, 'updateUser']);
     Route::delete('/{id}', [App\Http\Controllers\UserController::class, 'destroy']);
+  
+
+
 });
 
 Route::middleware(['jwt.auth:EMPLOYEE'])->prefix('summary')->group(function () {
     Route::get('/{id}', [App\Http\Controllers\SummaryController::class, 'getSummary']);
     Route::post('/', [App\Http\Controllers\SummaryController::class, 'createSummary']);
 });
+
+Route::middleware(['jwt.auth:ADMIN'])->prefix('message')->group(function () {
+    Route::post('/', [App\Http\Controllers\MessageController::class, 'createMessage']);
+});
+
+Route::middleware(['jwt.auth:EMPLOYEE'])->prefix('message')->group(function () {
+    Route::get('/', [App\Http\Controllers\MessageController::class, 'getUserMessages']);
+});
+

@@ -58,7 +58,7 @@ class AppointmentSeeder extends Seeder
         $appointment->detail = 'อยากทราบรายละเอียดเพิ่มเติมเพื่อนำไปตัดสินใจ';
         $appointment->booking_date = "2021-11-01";
         $appointment->booking_time = '10:00';
-        $appointment->status = 'Confirmed';
+        $appointment->status = 'Declined';
         $appointment->save();
 
         // id 5
@@ -69,7 +69,7 @@ class AppointmentSeeder extends Seeder
         $appointment->detail = 'อยากทราบรายละเอียดเพิ่มเติมเพื่อนำไปตัดสินใจ';
         $appointment->booking_date = "2021-11-05";
         $appointment->booking_time = '12:00';
-        $appointment->status = 'Confirmed';
+        $appointment->status = 'Declined';
         $appointment->save();
 
         // id 5

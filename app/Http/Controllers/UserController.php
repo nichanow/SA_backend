@@ -13,7 +13,12 @@ class UserController extends Controller
 {
     public function getAllUsers()
     {
-        $user = User::all();
+        $user = User::all(); 
+        return $user;
+    }
+
+    public function getAllEmployees(){
+        $user = User::where('role', 'EMPLOYEE')->get();
         return $user;
     }
 

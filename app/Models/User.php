@@ -29,6 +29,13 @@ class User extends Authenticatable
         return $this->hasOne(Appointment::class,'receiver_id');
     }
 
+    public function message_sender(){
+        return $this->hasOne(Appointment::class,'sender_id');
+    }
+    public function message_receiver(){
+        return $this->hasMany(Appointment::class,'receiver_id');
+    }
+
     protected $hidden = [
         'password',
     ];
