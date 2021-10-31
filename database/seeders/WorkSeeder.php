@@ -24,6 +24,7 @@ class WorkSeeder extends Seeder
         $work->type = "ร้องเรียนเกี่ยวกับการตรวจสอบ";
         $work->status = "เห็นชอบ";
         $work->province = "นนทบุรี";
+        $work->file = "file_upload/Test_1.docx";
         $work->save();
 
         // id 2
@@ -36,12 +37,12 @@ class WorkSeeder extends Seeder
         $work->type = "ร้องเรียนเกี่ยวกับการตรวจสอบ";
         $work->status = "เห็นชอบ";
         $work->province = "นนทบุรี";
+        $work->file = "file_upload/Test_2.pdf";
    
         $work->save();
 
         // id 3
         $work = new Work();
-
         $work->title = "ตรวจสอบการฟอกเงิน";
         $work->accused_name = "หน่วยงานตำรวจ จังหวัดปทุมธานี";
         $work->user_id = 3;
@@ -61,7 +62,7 @@ class WorkSeeder extends Seeder
         $work->type = "ร้องเรียนเกี่ยวกับการตรวจสอบ";
         $work->province = "ปทุมธานี";
         $work->status = "รอดำเนินการ";
-
+        $work->file = "file_upload/Test_3.pdf";
         $work->save();
 
         // id 5
@@ -73,7 +74,7 @@ class WorkSeeder extends Seeder
         $work->type = "ร้องเรียนเกี่ยวกับการตรวจสอบ";
         $work->province = "นนทบุรี";
         $work->status = "รอดำเนินการ";
-    
+        $work->file = "file_upload/Test_4.pdf";
         $work->save();
     }
 }

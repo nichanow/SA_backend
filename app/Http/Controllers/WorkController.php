@@ -132,6 +132,8 @@ class WorkController extends Controller
 
             $work->user_id = $request->user_id;
             if ($work->save()) {
+                if ($work['file']){
+                $work['file'] = env('APP_URL', false).Storage::url($work['file']);}
                 $work['user'] = $work->user;
                 return $work;
             } else {
