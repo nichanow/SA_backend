@@ -23,6 +23,13 @@ class WorkController extends Controller
         foreach ($work['works'] as $papa) {
             $papa['user'] = $papa->user;
             $papa['summary'] = $papa->summary;
+            if($papa['file']){
+                $papa['file'] = env('APP_URL', false) . Storage::url($papa['file']);
+            }
+            
+            if($papa['summary'] && $papa['summary']['file']){
+                $papa['summary']['file'] = env('APP_URL', false) . Storage::url($papa['summary']['file']);
+            }
         }
 
         return $work;
@@ -42,6 +49,14 @@ class WorkController extends Controller
         foreach ($work as $papa) {
             $papa['user'] = $papa->user;
             $papa['summary'] = $papa->summary;
+
+            if($papa['file']){
+                $papa['file'] = env('APP_URL', false) . Storage::url($papa['file']);
+            }
+
+            if($papa['summary'] && $papa['summary']['file']){
+                $papa['summary']['file'] = env('APP_URL', false) . Storage::url($papa['summary']['file']);
+            }
         }
 
         return $work;
@@ -59,8 +74,7 @@ class WorkController extends Controller
             'detail' => 'required',
             'type' => 'required',
             'province' => 'required',
-            'file' => 'required|mimes:doc,pdf,docx,txt',
-
+            'file' => 'mimes:doc,pdf,docx,txt',
         ]);
 
         if ($validator->fails()) {
@@ -79,11 +93,16 @@ class WorkController extends Controller
             $work->type = $request->type;
             $work->province = $request->province;
 
-            $work->file = 'file_upload/' . $request->file->hashName();
-            $work->file->store('file_upload', 'public');
+            if (!empty($request->file)) {
+                $work->file = 'file_upload/' . $request->file->hashName();
+                $request->file->store('file_upload', 'public');
+            }
 
             if ($work->save()) {
-                $work['file_upload'] = env('APP_URL', false) . Storage::url('file_upload/' . $request->file->hashName());
+                if (!empty($request->file)) {
+                    $work['file_upload'] = env('APP_URL', false) . Storage::url('file_upload/' . $request->file->hashName());
+                    return $work;
+                }
                 return $work;
             } else {
                 return

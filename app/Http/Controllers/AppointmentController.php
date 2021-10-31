@@ -11,6 +11,29 @@ use Illuminate\Support\Facades\Validator;
 
 class AppointmentController extends Controller
 {
+
+    public function getCalender(){
+        $calender = array();
+        $appointments = Appointment::all();
+        foreach($appointments as $papa){
+            $time = $papa['booking_time'];
+            $arrays = explode(":",$time);
+            $arrays[0] = $arrays[0] + 1;
+
+            array_push($calender, [
+                'name' => $papa['title'],
+                'start' => $papa['booking_date'].' '.$papa['booking_time'],
+                'end' => $papa['booking_date'].' '.$arrays[0].':00',
+                'date' => $papa['booking_date'],
+                'time' => $papa['booking_time'],
+                'endtime' => $arrays[0].':00',
+                'sender' => $papa->sender,
+                'color' => 'grey darken-1'
+            ]);
+        }
+        return $calender;
+    }
+
     public function getAllAppointments()
     {
         $appointment = Appointment::all();
@@ -18,7 +41,8 @@ class AppointmentController extends Controller
         foreach ($appointment as $papa){
             $papa['name'] = $papa->sender->name;
         }
-        return $appointment;  
+
+        return $appointment;
     }
 
     public function getAppointment($id)
@@ -71,12 +95,10 @@ class AppointmentController extends Controller
     public function createAppointment(Request $request)
     {
         $validator = Validator::make($request->all(), [
-
             'title' => 'required',
             'detail' => 'required',
             'booking_date' => 'required',
             'booking_time' => 'required',
-
         ]);
 
         if ($validator->fails()) {
@@ -109,6 +131,19 @@ class AppointmentController extends Controller
                     ];
             }
         }
+    }
+    public function getTime($date){
+        $appointments = Appointment::where('booking_date',$date)->get();
+        $times = array(
+            '08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00'
+        );
+        foreach( $appointments as $appointment ){
+            if(in_array($appointment['booking_time'],$times)){
+                $index = array_search($appointment['booking_time'],$times);
+                array_splice($times, $index ,1);
+            }
+        }
+        return $times;
     }
 
     public function destroy($id)

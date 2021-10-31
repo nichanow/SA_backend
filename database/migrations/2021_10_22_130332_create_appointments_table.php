@@ -19,7 +19,7 @@ class CreateAppointmentsTable extends Migration
             $table->foreignIdFor(\App\Models\User::class, 'receiver_id');
             $table->string('title');
             $table->longText('detail');
-            $table->datetime('booking_date');
+            $table->date('booking_date');
             $table->string('booking_time');
             $table->enum('status', ['Confirmed', 'Declined', 'Waiting'])->default('Waiting');
             $table->timestamps();

@@ -23,19 +23,20 @@ Route::prefix('auth')->group(function() {
 });
 
 Route::middleware(['jwt.auth:ADMIN'])->prefix('appointment')->group(function () {
-    Route::get('/', [App\Http\Controllers\AppointmentController::class, 'getAllAppointments']);
+    Route::get('/all', [App\Http\Controllers\AppointmentController::class, 'getAllAppointments']);
+    Route::get('/calender', [App\Http\Controllers\AppointmentController::class, 'getCalender']);
     Route::delete('/{id}', [App\Http\Controllers\AppointmentController::class, 'destroy']);
 });
 
 Route::middleware(['jwt.auth:ADMIN,EMPLOYEE'])->prefix('appointment')->group(function () {
+    Route::get('/time/{date}', [App\Http\Controllers\AppointmentController::class, 'getTime']);
     Route::get('/{id}', [App\Http\Controllers\AppointmentController::class, 'getAppointment']);
     Route::post('/', [App\Http\Controllers\AppointmentController::class, 'createAppointment']);
     Route::put('/{id}', [App\Http\Controllers\AppointmentController::class, 'updateStatus']);
-
 });
 
 Route::middleware(['jwt.auth:EMPLOYEE'])->prefix('appointment')->group(function () {
-    Route::get('/user', [App\Http\Controllers\AppointmentController::class, 'getUserAppointments']);
+    Route::get('/', [App\Http\Controllers\AppointmentController::class, 'getUserAppointments']);
 });
 
 
