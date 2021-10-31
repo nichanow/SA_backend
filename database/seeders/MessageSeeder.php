@@ -35,6 +35,5 @@ class MessageSeeder extends Seeder
         $message->detail = "ที่นัดปรึกษามา วันนั้นไม่ว่าง โปรดจองมาในวันจันทร์";
         $message->save();
 
-        
     }
 }

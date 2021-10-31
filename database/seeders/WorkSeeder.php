@@ -16,11 +16,11 @@ class WorkSeeder extends Seeder
     {
         // id 1
         $work = new Work();
-        $work->title = "ตรวจสอบการทุจริตในหลวงเอาภาษีประชาชนไปใช้";
-        $work->accused_name = "10";
+        $work->title = "ตรวจสอบการทุจริต";
+        $work->accused_name = "หน่วยงานดับเพลิง";
         $work->user_id =3;
-        $work->complainer_name = "คุณแบงค์กี้ ไกรกาญจน์";
-        $work->detail = "เห็นว่าไปอยู่เยอรมันนาน แล้วมันเอาเงินที่ไหนใช้ถ้าไม่ได้เอามาจากภาษีประชาชน";
+        $work->complainer_name = "ไชยเดช";
+        $work->detail = "รายละเอียดเบื้องต้น";
         $work->type = "ร้องเรียนเกี่ยวกับการตรวจสอบ";
         $work->status = "เห็นชอบ";
         $work->province = "นนทบุรี";
@@ -29,11 +29,11 @@ class WorkSeeder extends Seeder
 
         // id 2
         $work = new Work();
-        $work->title = "ตรวจสอบการทุจริต";
+        $work->title = "ตรวจสอบการทุจริตภายในองค์กร";
         $work->user_id = 2;
-        $work->accused_name = "ร้านโชห่วยข้างบ้าน";
-        $work->complainer_name = "พี่หนูรัตน์";
-        $work->detail = "คิดว่ามีการฟอกเงินเกิดขึ้นจึงเรียนแจ้งมา";
+        $work->accused_name = "หน่วยงานการไฟฟ้า";
+        $work->complainer_name = "อภิสิทธิ์";
+        $work->detail = "ต้องมีการลงพื้นที่เพื่อเข้าไปตรวจสอบ";
         $work->type = "ร้องเรียนเกี่ยวกับการตรวจสอบ";
         $work->status = "เห็นชอบ";
         $work->province = "นนทบุรี";
@@ -43,11 +43,11 @@ class WorkSeeder extends Seeder
 
         // id 3
         $work = new Work();
-        $work->title = "ตรวจสอบการฟอกเงิน";
-        $work->accused_name = "หน่วยงานตำรวจ จังหวัดปทุมธานี";
+        $work->title = "การทุจริตภายในหน่วยงานโรงเรียน";
+        $work->accused_name = "โรงเรียนสมยอด";
         $work->user_id = 3;
-        $work->complainer_name = "คุณสมโชค";
-        $work->detail = "เอาเงินไปซื้อปืน ซื้อกระสุน ซื้อแก๊สน้ำตาได้จึงเกิดข้อสงสัย";
+        $work->complainer_name = "สมหญิง เก่งมาก";
+        $work->detail = "รายละเอียดเบื้องต้น";
         $work->type = "ร้องเรียนเกี่ยวกับการตรวจสอบ";
         $work->status = "ไม่เห็นชอบ";
         $work->province = "กำแพงเพชร";
@@ -55,10 +55,10 @@ class WorkSeeder extends Seeder
 
         // id 4
         $work = new Work();
-        $work->title = "ตรวจสอบการลักลอกขนเงินข้ามจังหวัด";
-        $work->accused_name = "หน่วยงานการไฟฟ้าแห่งประเทศไทย";
+        $work->title = "การทุจริตภายในโรงงาน";
+        $work->accused_name = "โรงงานผลิตยาแก้ไอ";
         $work->complainer_name = "ปุณยาพร";
-        $work->detail = "เห็นมีการขนเงินอย่างมีพิรุธตอนกลางคืน";
+        $work->detail = "รายละเอียดเบื้องต้น";
         $work->type = "ร้องเรียนเกี่ยวกับการตรวจสอบ";
         $work->province = "ปทุมธานี";
         $work->status = "รอดำเนินการ";
@@ -67,10 +67,10 @@ class WorkSeeder extends Seeder
 
         // id 5
         $work = new Work();
-        $work->title = "ตรวจสอบเงินแผ่นดินของธนาคาร";
+        $work->title = "ร้องเรียนการทุจริตเงินส่วนกลาง";
         $work->accused_name = "ธนาคารแห่งประเทศไทย";
         $work->complainer_name = "ธิดาพร ชาวคูเวียง";
-        $work->detail = "คิดว่าเอาเงินไปให้ ร.10 แน่";
+        $work->detail = "รายละเอียดเบื้องต้น";
         $work->type = "ร้องเรียนเกี่ยวกับการตรวจสอบ";
         $work->province = "นนทบุรี";
         $work->status = "รอดำเนินการ";
