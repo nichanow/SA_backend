@@ -100,7 +100,7 @@ class WorkController extends Controller
 
             if ($work->save()) {
                 if (!empty($request->file)) {
-                    $work['file_upload'] = env('APP_URL', false) . Storage::url('file_upload/' . $request->file->hashName());
+                    $work['file'] = env('APP_URL', false) . Storage::url('file_upload/' . $request->file->hashName());
                     return $work;
                 }
                 return $work;
