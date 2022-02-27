@@ -142,8 +142,8 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        // $user->works()->delete();
-        // $user->appointments()->delete();
+        $user->works()->delete();
+        $user->appointments()->delete();
 
         if ($user->delete()) {
             return [
