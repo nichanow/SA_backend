@@ -28,6 +28,7 @@ class UserController extends Controller
         return $user;
     }
 
+    // Use Case 1 เพิ่มผู้ใช้
     public function addUser(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -96,9 +97,14 @@ class UserController extends Controller
         }
     }
 
+    
     public function login(Request $request)
     {
+        // Use Case 2
+        // กรอก username และ password
+        // กดเข้าสู่ระบบ
         $user = User::where('username', $request->username)->first();
+        // ไม่เป็น Null
         if (!empty($user)) {
             if (Hash::check($request->password, $user->password)) {
                 $token = $this->jwt($user);

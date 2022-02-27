@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 class WorkController extends Controller
 {
 
+    // ดึงงานที่พึ่งอัพเดทมาแสดง
     public function getAllWork()
     {
         $work = [];
@@ -64,7 +65,7 @@ class WorkController extends Controller
 
 
 
-
+    // Use Case 3 มอบหมายงานให้ลูกน้อง : เพิ่มงานร้องเรียนใหม่
     public function createWork(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -114,6 +115,7 @@ class WorkController extends Controller
         }
     }
 
+    // เลือกพนักงาน มอบหมายงานให้ลูกน้อง
     public function updateEmployee(Request $request, $id)
     {
         $work = Work::findOrFail($id);
